@@ -9,14 +9,14 @@ function clickFn(data){
 function init(){
 	$(target).empty();
 	$(target).html('<div class="cl_head_top">'+
-    '<div class="cl_head_left">&lt;</div>'+
+    '<div class="cl_head_left"></div>'+
             '<div class="cl_head_frame">'+
                 '<div class="cl_head_frameR">'+
                 
                 '</div>'+
                 
             '</div>'+
-          '<div class="cl_head_Right">&gt;</div>'+
+          '<div class="cl_head_Right"></div>'+
           '<div class="clear"></div>'+
 '</div>'+
 '<table id="calendar" width="678" border="0px" cellpadding="0" cellspacing="0">'+
@@ -28,13 +28,25 @@ function init(){
       '<th width="14.2%" scope="col">三</th>'+
       '<th scope="col" width="14.2%">四</th>'+
       '<th scope="col" width="14.2%">五</th>'+
-      '<th scope="col" width="14.2%" style="color:#ff6d00">六</th>'+
+      '<th scope="col" width="14.2%" style="color:#ff6d00; border-right:1px solid #e4f5ff">六</th>'+
     '</tr>'+
     '</thead>'+
   '<tbody valign="top">'+
 
   '</tbody>'+
 '</table>');
+$(target).find(".cl_head_left").unbind("click").bind("click",function(){
+	$(target).find(".cl_head_frameR").animate({"left":"-123px"},function(){
+		$(target).find(".cl_head_Right").show();
+		$(target).find(".cl_head_left").hide();
+	})
+	})
+$(target).find(".cl_head_Right").unbind("click").bind("click",function(){
+	$(target).find(".cl_head_frameR").animate({"left":"0px"},function(){
+		$(target).find(".cl_head_left").show();
+		$(target).find(".cl_head_Right").hide();
+	})
+	})
 	var dataObj={};
 	$.each(data,function(i,n){
 		var dateArry=n.goDate.split("-");

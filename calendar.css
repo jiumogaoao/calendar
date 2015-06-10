@@ -5,9 +5,10 @@
 .cl_head_top{
 		background-color:#2e9fe5;
 		width:678px;
+		position:relative;
+		height:68px;
 	}
 .cl_head_left{
-	float:left;
 	width:36px;
 	height:68px;
 	text-align:center;
@@ -15,29 +16,47 @@
 	color: #fff;
   font-size: 26px;
   font-weight:bold;
+  background-image:url(left.jpg);
+  position:absolute;
+  top:0px;
+  left:0px;
+  cursor:pointer;
 	}
 .cl_head_frame{
-	float:left;
 	width:606px;
 	height:68px;
-	overflow:hidden;}
+	overflow:hidden;
+	position:relative;
+	position:absolute;
+  top:0px;
+  left:69px;
+	}
 .cl_head_Right{
-	float:left;
 	width:36px;
 	height:68px;
 	text-align:center;
 	line-height:68px;
 	color: #fff;
   font-size: 26px;
-  font-weight:bold;}
+  font-weight:bold;
+  background-image:url(right.jpg);
+  position:absolute;
+  top:0px;
+  right:0px;
+  cursor:pointer;
+  display:none;}
 .cl_head_frameR{
 	width:800px;
 	height:68px;
+	position:absolute;
+	top:0px;
+	left:0px;
 	}
 .cl_head_Point{
 	float:left;
 	width:90px;
 	height:68px;
+	cursor:pointer;
 	margin-right:33px;
 	}
 .cl_head_Point_inside{
@@ -77,6 +96,8 @@
 	text-align:center;
 	font-size:12px;
 	}
+#calendar tbody .enable{
+	cursor:pointer;}
 #calendar tbody td:hover,#calendar tbody td.hl{
 	background-color:#fef2e4;
 	}
