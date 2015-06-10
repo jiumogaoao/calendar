@@ -4,133 +4,21 @@
 <meta charset="utf-8">
 <title>无标题文档</title>
 <script src="jquery-2.1.0.js"></script>
+<link href="calendar.css" rel="stylesheet" rel="stylesheet" type="text/css"/>
+<script src="calendar.js"></script>
 </head>
 
 <body>
-<table width="100%" border="1px" cellpadding="0" cellspacing="0">
-	<thead>
-    <tr>
-      <div class="cl_head_left">&lt;</div>
-      	<div class="cl_head_frame">
-        	<div class="cl_head_frameR">
-            
-            </div>
-      		
-      	</div>
-      <div class="cl_head_Right">&gt;</div>	
-    </tr>
-    <tr>
-      <th scope="col" width="14.2%">日</th>
-      <th scope="col" width="14.2%">一</th>
-      <th scope="col" width="14.2%">二</th>
-      <th scope="col" width="14.2%">三</th>
-      <th scope="col" width="14.2%">四</th>
-      <th scope="col" width="14.2%">五</th>
-      <th scope="col" width="14.2%">六</th>
-    </tr>
-    </thead>
-  <tbody>
 
-  </tbody>
-</table>
 
 </body>
 <script>
-var data=[
-{"priceId":"","goDate":"2015-06-10","adultPrice":1399,"leaveCt":10},
-{"priceId":"","goDate":"2015-06-07","adultPrice":1389,"leaveCt":10}
-];
-for (var i=0;i<6;i++){
-	$("tbody").append($('<tr>'+
-      '<td x="0" y="'+i+'" num="'+(i*7+0)+'">&nbsp;</td>'+
-      '<td x="1" y="'+i+'" num="'+(i*7+1)+'">&nbsp;</td>'+
-      '<td x="2" y="'+i+'" num="'+(i*7+2)+'">&nbsp;</td>'+
-      '<td x="3" y="'+i+'" num="'+(i*7+3)+'">&nbsp;</td>'+
-      '<td x="4" y="'+i+'" num="'+(i*7+4)+'">&nbsp;</td>'+
-      '<td x="5" y="'+i+'" num="'+(i*7+5)+'">&nbsp;</td>'+
-      '<td x="6" y="'+i+'" num="'+(i*7+6)+'">&nbsp;</td>'+
-    '</tr>'));
-	};
-function init(){
-	var dataObj={};
-	$.each(data,function(i,n){
-		var dateArry=n.goDate.split("-");
-		if(!dataObj[dateArry[0]]){
-			dataObj[dateArry[0]]={};
-			};
-		if(!dataObj[dateArry[0]][dateArry[1]]){
-			dataObj[dateArry[0]][dateArry[1]]=[];
-			};
-			dataObj[dateArry[0]][dateArry[1]].push(n);
-		});
 
-	var MArry=["十二","一","二","三","四","五","六","七","八","九","十","十一"]
-	var toYea=new Date().getFullYear();
-	var toMon=new Date().getMonth()+1;
-	for (var i=toMon;i<=toMon+5;i++){
-		var showY=toYea;
-		if(i>12){showY++};
-		var showM=MArry[i%12];
-		var countM=i%12||12;
-		if(countM<10){
-			countM="0"+countM;
-			}else{
-				countM+="";
-				};
-		var showP="无报价";
-		if(dataObj&&dataObj[showY+""]&&dataObj[showY+""][countM]){
-			$.each(dataObj[showY+""][countM],function(j,k){
-				if(j==0||showP>Number(k.adultPrice)){showP=Number(k.adultPrice)};
-				});
-			};
-		if(typeof(showP)=="number"){
-			showP="$"+showP+"/人"
-			}
-		$(".cl_head_frameR").append($('<div class="cl_head_Point" year="'+showY+'" month="'+countM+'">'+
-            	'<div class="cl_head_Point_inside">'+
-            		'<div class="cl_head_Mname">'+showM+'月</div>'+
-					'<div class="cl_head_Mprice">'+showP+'</div>'+
-            	'</div>'+
-            '</div>'));
-		};
-		$(".cl_head_frameR").append($('<div class="clear"></div'));
-		$(".cl_head_Point").unbind("click").bind("click",function(){
-			$("tbody").empty();
-		for (var i=0;i<6;i++){
-			$("tbody").append($('<tr>'+
-			  '<td num="'+(i*7+0)+'">&nbsp;</td>'+
-			  '<td num="'+(i*7+1)+'">&nbsp;</td>'+
-			  '<td num="'+(i*7+2)+'">&nbsp;</td>'+
-			  '<td num="'+(i*7+3)+'">&nbsp;</td>'+
-			  '<td num="'+(i*7+4)+'">&nbsp;</td>'+
-			  '<td num="'+(i*7+5)+'">&nbsp;</td>'+
-			  '<td num="'+(i*7+6)+'">&nbsp;</td>'+
-			'</tr>'));
-			};
-			var totalDay=[0,31,28,31,30,31,30,31,31,30,31,30,31]
-			if((Number($(this).attr("year"))%4==0 && Number($(this).attr("year"))%100!=0)||(Number($(this).attr("year"))%100==0 && Number($(this).attr("year"))%400==0)){
-				totalDay[2]=29;
-				}
-			var firstDay=new Date(Number($(this).attr("year")),Number($(this).attr("month"))-1,1).getDay()-1;
-			
-			for(var i=1;i<=totalDay[Number($(this).attr("month"))];i++){
-				var showDay=i;
-				if(i<10){
-					showDay="0"+i;
-					}
-				$("tbody [num='"+(i+firstDay)+"']").append($('<div class="dayNum">'+i+'</div>'));
-				$("tbody [num='"+(i+firstDay)+"']").attr("date",$(this).attr("year")+"-"+$(this).attr("month")+"-"+showDay);
-				}
-
-			if(dataObj&&dataObj[$(this).attr("year")]&&dataObj[$(this).attr("year")][$(this).attr("month")]){
-				
-				$.each(dataObj[$(this).attr("year")][$(this).attr("month")],function(i,n){
-					$("tbody [date='"+n.goDate+"']").append('<div class="adultPrice">￥'+n.adultPrice+'起</div><div class="leaveCt">余位'+n.leaveCt+'</div>')
-					})
-				}
-			})
-		$(".cl_head_Point").first().click();
-		};
-	init();	
+calendar.callBack(function(data){
+	alert(JSON.stringify(data))
+	})
+calendar.setData([{"priceId":"","goDate":"2015-06-10","adultPrice":1399,"leaveCt":10},
+{"priceId":"","goDate":"2015-06-07","adultPrice":1389,"leaveCt":10}])
+calendar.run();		
 </script>
 </html>
