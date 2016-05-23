@@ -5,20 +5,17 @@
 <title>无标题文档</title>
 <script src="jquery-2.1.0.js"></script>
 <link href="calendar.css" rel="stylesheet" rel="stylesheet" type="text/css"/>
-<script src="calendar.js"></script>
+
 </head>
 
 <body>
 
 
 </body>
-<script>
-
-calendar.callBack(function(data){
-	alert(JSON.stringify(data))
-	})
-calendar.setData([{"priceId":"","goDate":"2015-06-10","adultPrice":1399,"leaveCt":10},
-{"priceId":"","goDate":"2015-06-07","adultPrice":1389,"leaveCt":10}])
-calendar.run();		
-</script>
+<script src="calendar.js"></script>
 </html>
+<script type="text/javascript">
+	var c=new calendar();
+	c.toYea=2001;
+	c.init();
+</script>

@@ -1,25 +1,25 @@
 // JavaScript Document
-;(function(){
-	window.calendar={}
-	var target="body";
-var data=[];
-function clickFn(data){
-	console.log(data)
-	}
-function init(){
-	$(target).empty();
-	$(target).html('<div class="cl_head_top">'+
-    '<div class="cl_head_left"></div>'+
-            '<div class="cl_head_frame">'+
-                '<div class="cl_head_frameR">'+
-                
-                '</div>'+
-                
-            '</div>'+
-          '<div class="cl_head_Right"></div>'+
+var calendar=function(){};
+calendar.prototype.target = "body";
+calendar.prototype.MArry=["十二","一","二","三","四","五","六","七","八","九","十","十一"];
+calendar.prototype.toYea=new Date().getFullYear();
+calendar.prototype.toMon=new Date().getMonth()+1;
+calendar.prototype.totalDay=[0,31,28,31,30,31,30,31,31,30,31,30,31];
+calendar.prototype.offset=0;
+calendar.prototype.callback=function(data){
+	console.log(data);
+};
+calendar.prototype.init=function(){
+	var that=this;
+	$(this.target).empty();
+	$(this.target).html('<div class="cl_head_top">'+
+    	  '<div class="yearChange">2016年</div>'+
+    	  '<div class="monthChange">5月</div>'+
+    	  '<div class="up">&and;</div>'+
+    	  '<div class="down">&or;</div>'+
           '<div class="clear"></div>'+
 '</div>'+
-'<table id="calendar" width="678" border="0px" cellpadding="0" cellspacing="0">'+
+'<table id="calendar" width="750" border="0px" cellpadding="0" cellspacing="0">'+
 	'<thead>'+
     '<tr>'+
       '<th scope="col" width="14.2%" style="color:#ff6d00">日</th>'+
@@ -35,66 +35,8 @@ function init(){
 
   '</tbody>'+
 '</table>');
-$(target).find(".cl_head_left").unbind("click").bind("click",function(){
-	$(target).find(".cl_head_frameR").animate({"left":"-123px"},function(){
-		$(target).find(".cl_head_Right").show();
-		$(target).find(".cl_head_left").hide();
-	})
-	})
-$(target).find(".cl_head_Right").unbind("click").bind("click",function(){
-	$(target).find(".cl_head_frameR").animate({"left":"0px"},function(){
-		$(target).find(".cl_head_left").show();
-		$(target).find(".cl_head_Right").hide();
-	})
-	})
-	var dataObj={};
-	$.each(data,function(i,n){
-		var dateArry=n.goDate.split("-");
-		if(!dataObj[dateArry[0]]){
-			dataObj[dateArry[0]]={};
-			};
-		if(!dataObj[dateArry[0]][dateArry[1]]){
-			dataObj[dateArry[0]][dateArry[1]]=[];
-			};
-			dataObj[dateArry[0]][dateArry[1]].push(n);
-		});
-
-	var MArry=["十二","一","二","三","四","五","六","七","八","九","十","十一"]
-	var toYea=new Date().getFullYear();
-	var toMon=new Date().getMonth()+1;
-	for (var i=toMon;i<=toMon+5;i++){
-		var showY=toYea;
-		if(i>12){showY++};
-		var showM=MArry[i%12];
-		var countM=i%12||12;
-		if(countM<10){
-			countM="0"+countM;
-			}else{
-				countM+="";
-				};
-		var showP="无报价";
-		if(dataObj&&dataObj[showY+""]&&dataObj[showY+""][countM]){
-			$.each(dataObj[showY+""][countM],function(j,k){
-				if(j==0||showP>Number(k.adultPrice)){showP=Number(k.adultPrice)};
-				});
-			};
-		if(typeof(showP)=="number"){
-			showP="$"+showP+"/人"
-			}
-		$(target).find(".cl_head_frameR").append($('<div class="cl_head_Point" year="'+showY+'" month="'+countM+'">'+
-            	'<div class="cl_head_Point_inside">'+
-            		'<div class="cl_head_Mname">'+showM+'月</div>'+
-					'<div class="cl_head_Mprice">'+showP+'</div>'+
-            	'</div>'+
-            '</div>'));
-		};
-		$(target).find(".cl_head_frameR").append($('<div class="clear"></div'));
-		$(target).find(".cl_head_Point").unbind("click").bind("click",function(){
-			$(target).find(".cl_head_Point").removeClass("hl");
-			$(this).addClass("hl");
-			$(target).find("tbody").empty();
-		for (var i=0;i<6;i++){
-			$(target).find("tbody").append($('<tr>'+
+	for (var i=0;i<6;i++){
+			$(this.target).find("tbody").append($('<tr>'+
 			  '<td num="'+(i*7+0)+'">&nbsp;</td>'+
 			  '<td num="'+(i*7+1)+'">&nbsp;</td>'+
 			  '<td num="'+(i*7+2)+'">&nbsp;</td>'+
@@ -104,49 +46,93 @@ $(target).find(".cl_head_Right").unbind("click").bind("click",function(){
 			  '<td num="'+(i*7+6)+'" style="border-right:1px solid #e5e5e5">&nbsp;</td>'+
 			'</tr>'));
 			};
-			var totalDay=[0,31,28,31,30,31,30,31,31,30,31,30,31]
-			if((Number($(this).attr("year"))%4==0 && Number($(this).attr("year"))%100!=0)||(Number($(this).attr("year"))%100==0 && Number($(this).attr("year"))%400==0)){
-				totalDay[2]=29;
+	$(this.target).find(".yearChange").unbind("click").bind("click",function(){
+		that.drawYear();
+	});
+	$(this.target).find(".monthChange").unbind("click").bind("click",function(){
+		that.drawMonth();
+	});
+	this.drawDay();
+}
+calendar.prototype.drawDay = function(){
+	$(this.target).find(".up").show();
+	$(this.target).find(".down").show();
+	var that=this;
+	$(this.target).find(".up").unbind("click").bind("click",function(){
+		if(that.toMon>1){
+			that.toMon--;
+			that.drawDay();
+		}else{
+			that.toYea--;
+			that.toMon=12;
+			that.drawDay();
+		}
+	});
+	$(this.target).find(".down").unbind("click").bind("click",function(){
+		if(that.toMon<12){
+			that.toMon++;
+			that.drawDay();
+		}else{
+			that.toYea++;
+			that.toMon=1;
+			that.drawDay();
+		}
+	});
+	$(this.target).find(".yearChange").html(this.toYea+"年");
+	$(this.target).find(".monthChange").html(this.toMon+"月");
+	$(this.target).find("tbody td").empty();
+	if((this.toYea%4==0 && this.toYea%100!=0)||(this.toYea%100==0 && this.toYea%400==0)){
+				this.totalDay[2]=29;
 				}
-			var firstDay=new Date(Number($(this).attr("year")),Number($(this).attr("month"))-1,1).getDay()-1;
-			
-			for(var i=1;i<=totalDay[Number($(this).attr("month"))];i++){
+	var firstDay=new Date(this.toYea,this.toMon-1,1).getDay()-1;
+	for(var i=1;i<=this.totalDay[this.toMon];i++){
 				var showDay=i;
 				if(i<10){
 					showDay="0"+i;
 					}
-				$(target).find("tbody [num='"+(i+firstDay)+"']").empty();
-				$(target).find("tbody [num='"+(i+firstDay)+"']").append($('<div class="dayNum">'+i+'</div>'));
-				$(target).find("tbody [num='"+(i+firstDay)+"']").attr("date",$(this).attr("year")+"-"+$(this).attr("month")+"-"+showDay);
+				$(this.target).find("tbody [num='"+(i+firstDay)+"']").empty();
+				$(this.target).find("tbody [num='"+(i+firstDay)+"']").append($('<div class="dayNum">'+i+'</div>'));
+				$(this.target).find("tbody [num='"+(i+firstDay)+"']").attr("date",showDay);
 				}
-
-			if(dataObj&&dataObj[$(this).attr("year")]&&dataObj[$(this).attr("year")][$(this).attr("month")]){
-				
-				$.each(dataObj[$(this).attr("year")][$(this).attr("month")],function(i,n){
-					$(target).find("tbody [date='"+n.goDate+"']").addClass("enable");
-					$(target).find("tbody [date='"+n.goDate+"']").append('<div class="adultPrice">￥'+n.adultPrice+'起</div><div class="leaveCt">余位'+n.leaveCt+'</div>');
-					$(target).find("tbody [date='"+n.goDate+"']").data("result",n);
-					})
-				$(target).find("tbody .enable").unbind("click").bind("click",function(){
-					$(target).find("tbody .enable").removeClass("hl");
-					$(this).addClass("hl");
-					clickFn($(this).data("result"));
-					})
-				$(target).find("tbody .enable").first().click();
-				}
-			})
-		$(target).find(".cl_head_Point").first().click();
-		};
-		calendar.setTarget=function(t){
-			target=t;
-			}
-		calendar.setData=function(dataA){
-			data=dataA;
-			}
-		calendar.callBack=function(fn){
-			clickFn=fn;
-			}
-		calendar.run=function(){
-			init();
-			}
-	})();
+	$(this.target).find("td").unbind("click").bind("click",function(){
+		if(that.callback){
+			that.callback([that.toYea,that.toMon,Number($(this).attr("date"))]);
+		}
+	});
+}
+calendar.prototype.drawYear=function(){
+	$(this.target).find(".up").show();
+	$(this.target).find(".down").show();
+	var that=this;
+	$(this.target).find(".up").unbind("click").bind("click",function(){
+			that.offset--;
+			that.drawYear();
+	});
+	$(this.target).find(".down").unbind("click").bind("click",function(){	
+			that.offset++;
+			that.drawYear();
+	});
+	$(this.target).find("tbody td").empty();
+	for(var i=0;i<42;i++){
+		$(this.target).find("tbody [num='"+i+"']").append($('<div class="dayNum">'+(that.offset*42+i+that.toYea)+'</div>'));
+		$(this.target).find("tbody [num='"+i+"']").attr("date",that.offset*42+i+that.toYea);
+	}
+	$(this.target).find("td").unbind("click").bind("click",function(){
+		that.toYea = Number($(this).attr("date"));
+		that.drawDay();
+	});
+}
+calendar.prototype.drawMonth=function(){
+	var that=this;
+	$(this.target).find(".up").hide();
+	$(this.target).find(".down").hide();
+	$(this.target).find("tbody td").empty();
+	for(var i=1;i<=12;i++){
+		$(this.target).find("tbody [num='"+(i-1)+"']").append($('<div class="dayNum">'+i+'</div>'));
+		$(this.target).find("tbody [num='"+(i-1)+"']").attr("date",i);
+	}
+	$(this.target).find("td").unbind("click").bind("click",function(){
+		that.toMon = Number($(this).attr("date"));
+		that.drawDay();
+	});
+}

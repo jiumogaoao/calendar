@@ -4,85 +4,36 @@
 	clear:both}
 .cl_head_top{
 		background-color:#2e9fe5;
-		width:678px;
+		width:750px;
 		position:relative;
 		height:68px;
+		font-family: "Microsoft YaHei","HanHei SC";
+		font-size: 30px;
 	}
-.cl_head_left{
-	width:36px;
-	height:68px;
-	text-align:center;
-	line-height:68px;
+.cl_head_top .yearChange{
 	color: #fff;
-  font-size: 26px;
-  font-weight:bold;
-  background-image:url(left.jpg);
-  position:absolute;
-  top:0px;
-  left:0px;
-  cursor:pointer;
-	}
-.cl_head_frame{
-	width:606px;
-	height:68px;
-	overflow:hidden;
-	position:relative;
-	position:absolute;
-  top:0px;
-  left:69px;
-	}
-.cl_head_Right{
-	width:36px;
-	height:68px;
-	text-align:center;
-	line-height:68px;
+	line-height: 68px;
+	float: left;
+	margin-left: 10px;
+}
+.cl_head_top .monthChange{
 	color: #fff;
-  font-size: 26px;
-  font-weight:bold;
-  background-image:url(right.jpg);
-  position:absolute;
-  top:0px;
-  right:0px;
-  cursor:pointer;
-  display:none;}
-.cl_head_frameR{
-	width:800px;
-	height:68px;
-	position:absolute;
-	top:0px;
-	left:0px;
-	}
-.cl_head_Point{
-	float:left;
-	width:90px;
-	height:68px;
-	cursor:pointer;
-	margin-right:33px;
-	}
-.cl_head_Point_inside{
-	width:90px;
-	height:58px;
-	text-align:center;
-	margin-top:10px;
-	}
-.cl_head_Point.hl .cl_head_Point_inside{
-	background-color:#FFFFFF;
-	border-radius:10px 10px 0px 0px;
-	}
-.cl_head_Mname{
-	font-size:12px;
-	padding-top:10px;
-	color:#fff;
-	}
-.cl_head_Mprice{
-	font-size:12px;
-	padding-top:10px;
-	color:#fff;
-	}
-.cl_head_Point.hl .cl_head_Mname{
-	color:#1A1A1A}
-.cl_head_Point.hl .cl_head_Mprice{
-	color:#F37507}
+	line-height: 68px;
+	float: left;
+	margin-left: 30px;
+}
+.cl_head_top .up{
+	color: #fff;
+	line-height: 68px;
+	float: right;
+	margin-right: 10px;
+}
+.cl_head_top .down{
+	color: #fff;
+	line-height: 68px;
+	float: right;
+	margin-right: 30px;
+}
 #calendar thead tr th{
 	height:46px;
 	background-color:#e4f5ff;
